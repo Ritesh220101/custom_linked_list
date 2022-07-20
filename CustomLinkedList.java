@@ -2,7 +2,7 @@ package com.aurionpro.model;
 
 import java.util.Iterator;
 
-public class CustomLinkedList implements Iterable{
+public class CustomLinkedList implements Iterable {
 	private Node head;
 
 	public CustomLinkedList() {
@@ -22,26 +22,15 @@ public class CustomLinkedList implements Iterable{
 		}
 	}
 
-	public void remove(int data) {
-		Node temp = head;
-		Node current = null;
-		if (temp != null && temp.getData() == data) {
-			head = head.getNextNode();
+	public void remove(int index) {
+		Node node = head;
+		for (int i = 0; i < index - 1; i++) {
+			node = node.getNextNode();
 		}
-
-		else {
-			while (temp != null) {
-				current = temp;
-				temp = temp.getNextNode();
-				if (temp.getData() == data) {
-					break;
-				}
-			}
-			current = temp;
-//			temp = null;
-		}
-
+		node.setNextNode(node.getNextNode().getNextNode());
 	}
+
+	
 
 	public void display() {
 		if (head != null) {
@@ -53,8 +42,31 @@ public class CustomLinkedList implements Iterable{
 		}
 	}
 
-	public Iterator<Node> iterator() {
+	public Iterator<Integer> iterator() {
 		return new ListIterator(head);
+	}
+
+	public class ListIterator implements Iterator<Integer> {
+
+		private Node current;
+
+		public ListIterator(Node head) {
+			current = head;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return current != null;
+		}
+
+		@Override
+		public Integer next() {
+			Node temp = current;
+			current = current.getNextNode();
+			return temp.getData();
+
+		}
+
 	}
 
 }
